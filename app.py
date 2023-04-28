@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from keybert import KeyBERT
+# from keybert import KeyBERT
 import numpy as np
 from random import randint
 
@@ -21,64 +21,64 @@ Below is a list of the possible pages the Quiz Feedback will tell you to visit:
 app = Flask(__name__)
 
 
-@app.route('/get_keywords', methods=["POST"])
-def keywords_GET():
-    text = request.json['text']
-    try:
-        max_keywords = request.json['max_keywords']
-    except:
-        max_keywords = None
-    # Processong on text
-    keywords = generate_keywords(text, max_keywords)
+# @app.route('/get_keywords', methods=["POST"])
+# def keywords_GET():
+#     text = request.json['text']
+#     try:
+#         max_keywords = request.json['max_keywords']
+#     except:
+#         max_keywords = None
+#     # Processong on text
+#     keywords = generate_keywords(text, max_keywords)
 
-    return jsonify(keywords)
-
-
-@app.route('/get_keywords/<string:text>', methods=["GET"])
-def keywords_POST(text):
-    keywords = generate_keywords(text)
-
-    return jsonify(keywords)
+#     return jsonify(keywords)
 
 
-def generate_keywords(text, max_keywords=None):
-    """
-    Arguments:
-            docs: The document(s) for which to extract keywords/keyphrases
-            candidates: Candidate keywords/keyphrases to use instead of extracting them from the document(s)
-                        NOTE: This is not used if you passed a `vectorizer`.
-            keyphrase_ngram_range: Length, in words, of the extracted keywords/keyphrases.
-                                   NOTE: This is not used if you passed a `vectorizer`.
-            stop_words: Stopwords to remove from the document.
-                        NOTE: This is not used if you passed a `vectorizer`.
-            top_n: Return the top n keywords/keyphrases
-            min_df: Minimum document frequency of a word across all documents
-                    if keywords for multiple documents need to be extracted.
-                    NOTE: This is not used if you passed a `vectorizer`.
-            use_maxsum: Whether to use Max Sum Distance for the selection
-                        of keywords/keyphrases.
-            use_mmr: Whether to use Maximal Marginal Relevance (MMR) for the
-                     selection of keywords/keyphrases.
-            diversity: The diversity of the results between 0 and 1 if `use_mmr`
-                       is set to True.
-            nr_candidates: The number of candidates to consider if `use_maxsum` is
-                           set to True.
-            vectorizer: Pass in your own `CountVectorizer` from
-                        `sklearn.feature_extraction.text.CountVectorizer`
-            highlight: Whether to print the document and highlight its keywords/keyphrases.
-                       NOTE: This does not work if multiple documents are passed.
-            seed_keywords: Seed keywords that may guide the extraction of keywords by
-                           steering the similarities towards the seeded keywords.
-            doc_embeddings: The embeddings of each document.
-            word_embeddings: The embeddings of each potential keyword/keyphrase across
-                             across the vocabulary of the set of input documents.
-                             NOTE: The `word_embeddings` should be generated through
-                             `.extract_embeddings` as the order of these embeddings depend
-                             on the vectorizer that was used to generate its vocabulary.
-    """
-    if max_keywords:
-        return kw_model.extract_keywords(docs=[text], keyphrase_ngram_range=(1, max_keywords), top_n=30)
-    return kw_model.extract_keywords(docs=[text], keyphrase_ngram_range=(1, len(text)), top_n=30)
+# @app.route('/get_keywords/<string:text>', methods=["GET"])
+# def keywords_POST(text):
+#     keywords = generate_keywords(text)
+
+#     return jsonify(keywords)
+
+
+# def generate_keywords(text, max_keywords=None):
+#     """
+#     Arguments:
+#             docs: The document(s) for which to extract keywords/keyphrases
+#             candidates: Candidate keywords/keyphrases to use instead of extracting them from the document(s)
+#                         NOTE: This is not used if you passed a `vectorizer`.
+#             keyphrase_ngram_range: Length, in words, of the extracted keywords/keyphrases.
+#                                    NOTE: This is not used if you passed a `vectorizer`.
+#             stop_words: Stopwords to remove from the document.
+#                         NOTE: This is not used if you passed a `vectorizer`.
+#             top_n: Return the top n keywords/keyphrases
+#             min_df: Minimum document frequency of a word across all documents
+#                     if keywords for multiple documents need to be extracted.
+#                     NOTE: This is not used if you passed a `vectorizer`.
+#             use_maxsum: Whether to use Max Sum Distance for the selection
+#                         of keywords/keyphrases.
+#             use_mmr: Whether to use Maximal Marginal Relevance (MMR) for the
+#                      selection of keywords/keyphrases.
+#             diversity: The diversity of the results between 0 and 1 if `use_mmr`
+#                        is set to True.
+#             nr_candidates: The number of candidates to consider if `use_maxsum` is
+#                            set to True.
+#             vectorizer: Pass in your own `CountVectorizer` from
+#                         `sklearn.feature_extraction.text.CountVectorizer`
+#             highlight: Whether to print the document and highlight its keywords/keyphrases.
+#                        NOTE: This does not work if multiple documents are passed.
+#             seed_keywords: Seed keywords that may guide the extraction of keywords by
+#                            steering the similarities towards the seeded keywords.
+#             doc_embeddings: The embeddings of each document.
+#             word_embeddings: The embeddings of each potential keyword/keyphrase across
+#                              across the vocabulary of the set of input documents.
+#                              NOTE: The `word_embeddings` should be generated through
+#                              `.extract_embeddings` as the order of these embeddings depend
+#                              on the vectorizer that was used to generate its vocabulary.
+#     """
+#     if max_keywords:
+#         return kw_model.extract_keywords(docs=[text], keyphrase_ngram_range=(1, max_keywords), top_n=30)
+#     return kw_model.extract_keywords(docs=[text], keyphrase_ngram_range=(1, len(text)), top_n=30)
 
 
 @app.route('/quiz_feedback', methods=["POST"])
@@ -641,5 +641,5 @@ def get_quiz_feedback(questions: list, answers: list):
     return feedback, page_to_visit
 
 if __name__ == '__main__':
-    kw_model = KeyBERT()
-    app.run('0.0.0.0',port=5000)
+    # kw_model = KeyBERT()
+    app.run(port=5000)
